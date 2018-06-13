@@ -30,12 +30,13 @@ pageToDownload = ""
 
 def getPageName():
 	global pageToDownload
-	intermediateWeb = "http://www.clubnatacioterrassa.cat/inici/instal%C2%B7lacions-area-olimpica/piscines/"
+	intermediateWeb = "http://clubnatacioterrassa.cat/el-club/installacions/"
 	
 	response = urllib2.urlopen(intermediateWeb)
-	searchText = re.compile("http://www.clubnatacioterrassa.cat/wp-content/uploads/Disponibilitat_piscines_(.*?).pdf")
+	searchText = re.compile("http://clubnatacioterrassa.cat/wp-content/uploads/(.*?)/(.*?)/Disponibilitat_piscines_(.*?).pdf")
 	tmp = searchText.search(response.read())
 	pageToDownload = tmp.group(0)
+	response.close()
 
 	print("Location of pool usage file: %s" % pageToDownload)
 #Finished getPageName
@@ -48,6 +49,7 @@ def downloadFile():
 	file = open(documentName, 'wb')
 	file.write(response.read())
 	file.close()
+	response.close()
 	print("Pool usage document downloaded")
 #Finished downloadFile
 
